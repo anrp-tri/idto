@@ -1,0 +1,41 @@
+# -*- python -*-
+
+load(
+	"//tools:shared_library.bzl",
+	"idto_cc_shared_library",
+)
+package(
+    default_visibility = ["//visibility:public"],
+)
+
+idto_cc_shared_library(
+    name = "binding",
+    solib = "_binding.so",
+    srcs = ["cc_py.cc"],
+    deps = [
+    	"//:idto_shared_library",
+        "@drake//bindings/pydrake:pydrake_pybind",
+        # "@drake//bindings/pydrake:documentation_pybind",
+        "@drake//bindings/pydrake/common:cpp_param_pybind",
+        "@drake//bindings/pydrake/common:cpp_template_pybind",
+        "@drake//bindings/pydrake/common:deprecation_pybind",
+        "@drake//bindings/pydrake/common:serialize_pybind",
+    ],
+    copts = ["-I/usr/include/python3.10"],
+)
+
+py_library(
+    name = "py",
+    data = [":binding"],
+    srcs = ["__init__.py"],
+    deps = ["@drake//bindings/pydrake"],
+)
+
+
+py_test(
+    name = "cc_py_test",
+    srcs = ["test/cc_py_test.py"],
+    deps = [
+        ":py",
+    ],
+)

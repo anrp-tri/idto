@@ -13,8 +13,9 @@ def idto_cc_shared_library(
         srcs = [],
         deps = [],
         data = [],
+	solib = None,
         **kwargs):
-    solib = _make_solib_name(name)
+    solib = solib or _make_solib_name(name)
 
     # Create main shared library.
     native.cc_binary(

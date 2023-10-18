@@ -22,7 +22,8 @@ build --host_cxxopt=-std=c++17
 build --action_env=CCACHE_DISABLE=1
 
 # Escalate warnings to errors
-build --copt=-Werror
+# Copius uses of -Wno-register in deps prevent us form using this.
+# build --copt=-Werror
 
 # Enable OpenMP
 build:omp --copt=-DEIGEN_DONT_PARALLELIZE
